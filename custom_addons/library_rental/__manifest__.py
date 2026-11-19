@@ -1,11 +1,20 @@
 {
     "name": "Library Rental",
     "author": "ChatGPT",
-    "version": "19.0.1.0.0",
+    "version": "19.0.2.0.0",
     "category": "Services/Library",
     "summary": "Library catalog and lending",
     "depends": ["base"],
     "license": "LGPL-3",
     "application": True,
     "installable": True,
+    "data": [
+        "security/ir.model.access.csv",
+        "views/book_views.xml",
+        "views/copy_views.xml",
+        "views/member_views.xml",
+        "views/loan_views.xml",
+        "views/library_menus.xml",
+        "data/example_data.xml",
+    ],
 }

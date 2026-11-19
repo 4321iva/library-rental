@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="book_kobzar" model="library.book">
+        <field name="name">Кобзар</field>
+        <field name="author">Тарас Шевченко</field>
+        <field name="publish_year">1840</field>
+    </record>
+    <record id="book_haydamaky" model="library.book">
+        <field name="name">Гайдамаки</field>
+        <field name="author">Тарас Шевченко</field>
+        <field name="publish_year">1841</field>
+    </record>
+    <record id="book_forest_song" model="library.book">
+        <field name="name">Лісова пісня</field>
+        <field name="author">Леся Українка</field>
+        <field name="publish_year">1912</field>
+    </record>
+
+    <record id="copy_kobzar_01" model="library.copy">
+        <field name="book_id" ref="book_kobzar"/>
+        <field name="inventory_number">KOB-001</field>
+        <field name="condition">new</field>
+    </record>
+    <record id="copy_kobzar_02" model="library.copy">
+        <field name="book_id" ref="book_kobzar"/>
+        <field name="inventory_number">KOB-002</field>
+        <field name="condition">good</field>
+    </record>
+    <record id="copy_haydamaky_01" model="library.copy">
+        <field name="book_id" ref="book_haydamaky"/>
+        <field name="inventory_number">HAY-001</field>
+        <field name="condition">good</field>
+    </record>
+    <record id="copy_haydamaky_02" model="library.copy">
+        <field name="book_id" ref="book_haydamaky"/>
+        <field name="inventory_number">HAY-002</field>
+        <field name="condition">damaged</field>
+    </record>
+    <record id="copy_forest_song_01" model="library.copy">
+        <field name="book_id" ref="book_forest_song"/>
+        <field name="inventory_number">FOR-001</field>
+        <field name="condition">good</field>
+    </record>
+    <record id="copy_forest_song_02" model="library.copy">
+        <field name="book_id" ref="book_forest_song"/>
+        <field name="inventory_number">FOR-002</field>
+        <field name="condition">new</field>
+    </record>
+
+    <record id="member_olena" model="library.member">
+        <field name="name">Олена Коваль</field>
+        <field name="membership_number">LIB-001</field>
+    </record>
+    <record id="member_maksym" model="library.member">
+        <field name="name">Максим Бойко</field>
+        <field name="membership_number">LIB-002</field>
+    </record>
+
+    <record id="loan_kobzar_overdue" model="library.loan">
+        <field name="copy_id" ref="copy_kobzar_01"/>
+        <field name="member_id" ref="member_olena"/>
+        <field name="loan_date" eval="(DateTime.today() - relativedelta(days=14)).date()"/>
+        <field name="due_date" eval="(DateTime.today() - relativedelta(days=7)).date()"/>
+    </record>
+    <record id="loan_haydamaky_returned" model="library.loan">
+        <field name="copy_id" ref="copy_haydamaky_01"/>
+        <field name="member_id" ref="member_maksym"/>
+        <field name="loan_date" eval="(DateTime.today() - relativedelta(days=10)).date()"/>
+        <field name="due_date" eval="(DateTime.today() - relativedelta(days=3)).date()"/>
+        <field name="return_date" eval="(DateTime.today() - relativedelta(days=5)).date()"/>
+        <field name="state">returned</field>
+    </record>
+    <record id="loan_forest_song_active" model="library.loan">
+        <field name="copy_id" ref="copy_forest_song_01"/>
+        <field name="member_id" ref="member_maksym"/>
+        <field name="loan_date" eval="DateTime.today().date()"/>
+        <field name="due_date" eval="(DateTime.today() + relativedelta(days=7)).date()"/>
+    </record>
+</odoo>
