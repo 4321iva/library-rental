@@ -1,0 +1,30 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: library_odoo
+      POSTGRES_PASSWORD: library_dev_password
+    volumes:
+      - database:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U library_odoo -d postgres"]
+      interval: 2s
+      timeout: 3s
+      retries: 25
+
+  odoo:
+    build: .
+    command: ["-d", "lab_odoo", "--dev=all"]
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:8069:8069"
+    volumes:
+      - .:/mnt/workshop:ro
+      - odoo_data:/var/lib/odoo
+
+volumes:
+  database:
+  odoo_data:
